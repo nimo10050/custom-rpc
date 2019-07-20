@@ -1,15 +1,19 @@
 package com.nimo.rpc.entity;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
+/**
+ * 远程调用对象
+ */
 public class RpcData implements Serializable {
 
+    // id
+    private String serviceName;
     // 服务地址
     private String host;
     // 端口
     private Integer port;
-    // 实现类名字
-    private String implClassQualifyName;
     // 类对象
     private Class cls;
     // 方法名
@@ -18,6 +22,8 @@ public class RpcData implements Serializable {
     private Object[] args;
     // 参数类型
     private Class[] parameterType;
+    // 服务实现类名
+    private String serviceImplQualifyName;
 
     public Class getCls() {
         return cls;
@@ -43,14 +49,6 @@ public class RpcData implements Serializable {
         this.args = args;
     }
 
-    public String getImplClassQualifyName() {
-        return implClassQualifyName;
-    }
-
-    public void setImplClassQualifyName(String implClassQualifyName) {
-        this.implClassQualifyName = implClassQualifyName;
-    }
-
     public String getHost() {
         return host;
     }
@@ -73,5 +71,36 @@ public class RpcData implements Serializable {
 
     public void setParameterType(Class[] parameterType) {
         this.parameterType = parameterType;
+    }
+
+
+    public String getServiceName() {
+        return serviceName;
+    }
+
+    public void setServiceName(String serviceName) {
+        this.serviceName = serviceName;
+    }
+
+    public String getServiceImplQualifyName() {
+        return serviceImplQualifyName;
+    }
+
+    public void setServiceImplQualifyName(String serviceImplQualifyName) {
+        this.serviceImplQualifyName = serviceImplQualifyName;
+    }
+
+    @Override
+    public String toString() {
+        return "RpcData{" +
+                "serviceName='" + serviceName + '\'' +
+                ", host='" + host + '\'' +
+                ", port=" + port +
+                ", cls=" + cls +
+                ", methodName='" + methodName + '\'' +
+                ", args=" + Arrays.toString(args) +
+                ", parameterType=" + Arrays.toString(parameterType) +
+                ", serviceImplQualifyName='" + serviceImplQualifyName + '\'' +
+                '}';
     }
 }
