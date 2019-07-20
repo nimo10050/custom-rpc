@@ -17,13 +17,31 @@
   RpcData rpcData = new RpcData();
   rpcData.setHost("localhost");// 服务调用地址
   rpcData.setPort(8866);// 服务端口号
-  rpcData.setImplClassQualifyName("com.nimo.proxy.HelloServiceImpl");// 服务实现类
+  rpcData.setImplClassQualifyName("com.nimo.api.HelloServiceImpl");// 服务实现类
   rpcData.setCls(HelloService.class);// 服务接口
   rpcData.setArgs(new String[]{"zhangsan"});// 参数
   rpcData.setParameterType(new Class[]{String.class});// 参数类型
   rpcData.setMethodName("sayHello");// 方法名
   
   ServiceManager.referService(rpcData);// 引用服务
+
+```
+
+## v1.1版本 
+
+> 服务提供者
+
+```
+  ServiceManager.exportService("provider.properties");// 读取配置文件
+```
+> 服务消费者
+
+```
+  // 封装传输对象
+  PropertiesApplicationContext context = new PropertiesApplicationContext("consumer.properties");
+  HelloService helloService = (HelloService) context.getBean("helloService");
+  String result = helloService.sayHello("zhangsan");
+  System.out.println(result);
 
 ```
 
