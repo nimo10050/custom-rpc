@@ -1,4 +1,4 @@
-package com.nimo.proxy;
+package com.nimo.api;
 
 public interface HelloService {
 

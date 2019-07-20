@@ -1,11 +1,11 @@
-package com.nimo.proxy;
+package com.nimo.server;
 
 import com.nimo.rpc.manager.ServiceManager;
 
 public class ServiceProvider {
 
     public static void main(String[] args) {
-        ServiceManager.exportService(8866);
+        ServiceManager.exportService("provider.properties");
     }
 
 
