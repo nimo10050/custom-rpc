@@ -1,6 +1,7 @@
-package com.nimo.rpc.Utils;
+package com.nimo.rpc.utils;
 
 import com.nimo.rpc.entity.RpcData;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -42,7 +43,7 @@ public class PropertiesReader {
         String impl = prop.getProperty(key +".impl");
         rpcData.setServiceName(key);
         rpcData.setHost(host);
-        rpcData.setPort(Integer.valueOf(port));
+        rpcData.setPort(StringUtils.isNotEmpty(port)? Integer.valueOf(port): 0);// 空指针判断
         rpcData.setServiceImplQualifyName(impl);
         try {
             Class<?> aClass = Class.forName(interfaceName);

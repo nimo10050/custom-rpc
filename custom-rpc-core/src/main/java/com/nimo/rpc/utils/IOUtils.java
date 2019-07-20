@@ -1,4 +1,4 @@
-package com.nimo.rpc.Utils;
+package com.nimo.rpc.utils;
 
 import java.io.Closeable;
 import java.io.IOException;

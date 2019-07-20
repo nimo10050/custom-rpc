@@ -1,6 +1,6 @@
 package com.nimo.rpc.context;
 
-import com.nimo.rpc.Utils.PropertiesReader;
+import com.nimo.rpc.utils.PropertiesReader;
 import com.nimo.rpc.entity.RpcData;
 import com.nimo.rpc.proxy.ConsumerProxy;
 

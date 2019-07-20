@@ -1,7 +1,7 @@
 package com.nimo.rpc.manager;
 
-import com.nimo.rpc.Utils.IOUtils;
-import com.nimo.rpc.Utils.PropertiesReader;
+import com.nimo.rpc.utils.IOUtils;
+import com.nimo.rpc.utils.PropertiesReader;
 import com.nimo.rpc.entity.RpcData;
 
 import java.io.*;
@@ -78,7 +78,6 @@ public class ServiceManager {
             ois = new ObjectInputStream(inputStream);
             RpcData remote = (RpcData) ois.readObject();
             // 4. 调用本地方法
-            System.out.println(remote.getServiceName());
             remote.setServiceImplQualifyName(propReader.getProperty(remote.getServiceName()+".impl"));
             Object result = invokeNativeMethod(remote);
             // 5. 返回结果给服务调用方
@@ -104,7 +103,6 @@ public class ServiceManager {
      * @throws Exception
      */
     private static Object invokeNativeMethod(RpcData rpcData) throws Exception {
-        System.out.println(rpcData);
         Object service = Class.forName(rpcData.getServiceImplQualifyName()).newInstance();
         Method method = rpcData.getCls().getMethod(rpcData.getMethodName(), rpcData.getParameterType());
         Object result = method.invoke(service, rpcData.getArgs());
