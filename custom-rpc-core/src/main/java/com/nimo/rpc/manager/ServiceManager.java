@@ -1,13 +1,16 @@
 package com.nimo.rpc.manager;
 
+import com.nimo.rpc.exception.CustomRpcException;
 import com.nimo.rpc.utils.IOUtils;
 import com.nimo.rpc.utils.PropertiesReader;
 import com.nimo.rpc.entity.RpcData;
 
 import java.io.*;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Map;
 
 /**
  * 服务管理
@@ -61,38 +64,55 @@ public class ServiceManager {
      * @return
      */
     public static void exportService(String properties) {
-        ServerSocket server = null;
-        InputStream inputStream = null;
-        ObjectInputStream ois = null;
-
         try {
             // 1. 读取本地配置文件
             PropertiesReader propReader = new PropertiesReader(properties);
-            String serviceName = propReader.getProperty("export.services");
-            RpcData rpcData = propReader.fill(serviceName);
+            String port = propReader.getProperty("export.port");
+            Map<String, RpcData> services = propReader.fillAll();
+
             // 2. 开通服务端连接
-            server = new ServerSocket(rpcData.getPort());
-            Socket socket = server.accept();
-            // 3. 获取客户端输入流
-            inputStream = socket.getInputStream();
-            ois = new ObjectInputStream(inputStream);
-            RpcData remote = (RpcData) ois.readObject();
-            // 4. 调用本地方法
-            remote.setServiceImplQualifyName(propReader.getProperty(remote.getServiceName()+".impl"));
-            Object result = invokeNativeMethod(remote);
-            // 5. 返回结果给服务调用方
-            new ObjectOutputStream(socket.getOutputStream()).writeObject(result);
+            ServerSocket server = new ServerSocket(Integer.valueOf(port));
+            while (true) {
+                Socket socket = server.accept();
+                
+                new Thread(() -> {
+                    InputStream inputStream = null;
+                    ObjectInputStream ois = null;
+                    ObjectOutputStream oos = null;
+                    try {
+                        // 3. 获取客户端输入流
+                        inputStream = socket.getInputStream();
+                        ois = new ObjectInputStream(inputStream);
+                        RpcData remote = (RpcData) ois.readObject();
+                        oos = new ObjectOutputStream(socket.getOutputStream());
+                        // 4.1 方法不存在
+                        if (services == null || !services.containsKey(remote.getServiceName())) {
+                            oos.writeObject("service is not exist!");
+                        } else {
+                            // 4.2 调用本地方法
+                            remote.setServiceImplQualifyName(propReader.getProperty(remote.getServiceName() + ".impl"));
+                            Object result = invokeNativeMethod(remote);
+                            // 5. 返回结果给服务调用方
+                            oos.writeObject(result);
+                        }
+                    } catch (ClassNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } finally {
+                        IOUtils.closeQuietly(oos);
+                        IOUtils.closeQuietly(ois);
+                        IOUtils.closeQuietly(inputStream);
+                    }
+                }).start();
+
+            }
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            IOUtils.closeQuietly(ois);
-            IOUtils.closeQuietly(inputStream);
-            IOUtils.closeQuietly(server);
         }
+
     }
 
     /**
@@ -102,11 +122,23 @@ public class ServiceManager {
      * @return
      * @throws Exception
      */
-    private static Object invokeNativeMethod(RpcData rpcData) throws Exception {
-        Object service = Class.forName(rpcData.getServiceImplQualifyName()).newInstance();
-        Method method = rpcData.getCls().getMethod(rpcData.getMethodName(), rpcData.getParameterType());
-        Object result = method.invoke(service, rpcData.getArgs());
-        return result;
-
+    private static Object invokeNativeMethod(RpcData rpcData) throws CustomRpcException {
+        try {
+            Object service = Class.forName(rpcData.getServiceImplQualifyName()).newInstance();
+            Method method = rpcData.getCls().getMethod(rpcData.getMethodName(), rpcData.getParameterType());
+            Object result = method.invoke(service, rpcData.getArgs());
+            return result;
+        } catch (InstantiationException e) {
+            return e;
+        } catch (InvocationTargetException e) {
+            return e;
+        } catch (NoSuchMethodException e) {
+            return e;
+        } catch (IllegalAccessException e) {
+            return e;
+        } catch (ClassNotFoundException e) {
+            return e;
+        }
     }
+
 }

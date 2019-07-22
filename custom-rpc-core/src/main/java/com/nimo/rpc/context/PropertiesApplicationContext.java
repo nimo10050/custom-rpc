@@ -16,9 +16,15 @@ public class PropertiesApplicationContext {
     }
 
     public Object getBean(String beanName) {
-        RpcData rpcData = reader.fill(beanName);
-        Class<?> aClass = rpcData.getCls();
-        return ConsumerProxy.build(aClass, rpcData);
+        try {
+            RpcData rpcData = reader.fill(beanName);
+            Class<?> aClass = rpcData.getCls();
+            return ConsumerProxy.build(aClass, rpcData);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+
     }
 
 }
