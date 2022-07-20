@@ -8,7 +8,7 @@ public class ServiceClient {
     public static void main(String[] args) {
         // 封装传输对象
         PropertiesApplicationContext context = new PropertiesApplicationContext("consumer.properties");
-        HelloService helloService = (HelloService) context.getBean("helloService");
+        HelloService helloService = (HelloService) context.getBean("helloService2");
         String result = helloService.sayHello("zhangsan");
         System.out.println(result);
     }
