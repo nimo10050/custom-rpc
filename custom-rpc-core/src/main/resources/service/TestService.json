@@ -1,0 +1,23 @@
+{
+    "service": [{
+        "id": "testService",
+        "class": "com.nimo.rpc.service.HelloService",
+        "export": "protocol1:8888,protocol2:8999",
+        "registries": "registry1",
+        "group": "group1, group2"
+    }],
+
+    "protocol": [{
+        "id": "protocol1",
+        "name": "custom"
+    },{
+        "id": "protocol2",
+        "name": "custom"
+    }],
+
+    "registry": [{
+        "id": "registry1",
+        "name": "registry",
+        "regProtocol": "redis"
+    }]
+}
