@@ -2,6 +2,8 @@ package com.nimo.rpc.v2.config;
 
 import com.nimo.rpc.v2.URL;
 
+import java.lang.reflect.Method;
+
 /**
  * @auther zgp
  * @desc
@@ -43,5 +45,9 @@ public class Provider<T> {
 
     public void setUrl(URL url) {
         this.url = url;
+    }
+
+    public Method lookupMethod(String methodName) {
+        return null;
     }
 }

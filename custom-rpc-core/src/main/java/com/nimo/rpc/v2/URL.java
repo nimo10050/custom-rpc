@@ -7,6 +7,8 @@ package com.nimo.rpc.v2;
  */
 public class URL {
 
+    private String path;
+
     public URL() {
     }
 
@@ -44,5 +46,13 @@ public class URL {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
     }
 }

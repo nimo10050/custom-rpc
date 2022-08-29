@@ -14,17 +14,16 @@ public class Exporter {
     private Server server;
 
     private Provider provider;
-    
+
     public <T> Exporter(Provider<T> provider, URL serviceUrl) {
         server = new Server(serviceUrl);
-        this.provider = provider;
+        server.addProvider(provider);
     }
 
     public void init() {
-        server.open();
+        new Thread(() -> {
+            server.open();
+        }).start();
     }
 
-    public Provider getProvider() {
-     return provider;
-    }
 }

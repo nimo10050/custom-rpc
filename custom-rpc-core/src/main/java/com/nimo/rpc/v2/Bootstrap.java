@@ -68,7 +68,7 @@ public class Bootstrap {
     private static List<ProtocolConfig> findProtocolConfig(String export, List<ProtocolConfig> protocolConfigs) {
 
         List<ProtocolConfig> newProtocolConfigs = new ArrayList<>();
-        String[] exports = export.split(";");
+        String[] exports = export.split(",");
         for (String s : exports) {
             String protocolConfigId = s.split(":")[0];
             for (ProtocolConfig protocolConfig : protocolConfigs) {
