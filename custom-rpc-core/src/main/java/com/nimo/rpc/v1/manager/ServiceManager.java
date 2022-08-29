@@ -1,9 +1,9 @@
-package com.nimo.rpc.manager;
+package com.nimo.rpc.v1.manager;
 
-import com.nimo.rpc.exception.CustomRpcException;
-import com.nimo.rpc.utils.IOUtils;
-import com.nimo.rpc.utils.PropertiesReader;
-import com.nimo.rpc.entity.RpcData;
+import com.nimo.rpc.v1.exception.RpcException;
+import com.nimo.rpc.v1.utils.IOUtils;
+import com.nimo.rpc.v1.utils.PropertiesReader;
+import com.nimo.rpc.v1.entity.RpcData;
 
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
@@ -122,7 +122,7 @@ public class ServiceManager {
      * @return
      * @throws Exception
      */
-    private static Object invokeNativeMethod(RpcData rpcData) throws CustomRpcException {
+    private static Object invokeNativeMethod(RpcData rpcData) throws RpcException {
         try {
             Object service = Class.forName(rpcData.getServiceImplQualifyName()).newInstance();
             Method method = rpcData.getCls().getMethod(rpcData.getMethodName(), rpcData.getParameterType());

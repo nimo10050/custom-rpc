@@ -1,4 +1,4 @@
-package com.nimo.rpc.entity;
+package com.nimo.rpc.v1.entity;
 
 import java.io.Serializable;
 import java.util.Arrays;

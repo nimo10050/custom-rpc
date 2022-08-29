@@ -1,7 +1,7 @@
-package com.nimo.rpc.manager;
+package com.nimo.rpc.v1.manager;
 
-import com.nimo.rpc.entity.RpcData;
-import com.nimo.rpc.utils.IOUtils;
+import com.nimo.rpc.v1.entity.RpcData;
+import com.nimo.rpc.v1.utils.IOUtils;
 
 /**
  * 服务缓存处理

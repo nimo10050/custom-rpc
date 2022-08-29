@@ -1,4 +1,4 @@
-package com.nimo.rpc.utils;
+package com.nimo.rpc.v1.utils;
 
 import org.apache.commons.lang3.StringUtils;
 

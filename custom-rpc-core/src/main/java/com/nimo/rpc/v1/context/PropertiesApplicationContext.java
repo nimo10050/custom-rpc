@@ -1,8 +1,8 @@
-package com.nimo.rpc.context;
+package com.nimo.rpc.v1.context;
 
-import com.nimo.rpc.utils.PropertiesReader;
-import com.nimo.rpc.entity.RpcData;
-import com.nimo.rpc.proxy.ConsumerProxy;
+import com.nimo.rpc.v1.utils.PropertiesReader;
+import com.nimo.rpc.v1.entity.RpcData;
+import com.nimo.rpc.v1.proxy.ConsumerProxy;
 
 /**
  * 应用程序上下文 Properties 版本

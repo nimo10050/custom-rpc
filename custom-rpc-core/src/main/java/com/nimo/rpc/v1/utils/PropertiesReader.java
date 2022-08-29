@@ -1,6 +1,6 @@
-package com.nimo.rpc.utils;
+package com.nimo.rpc.v1.utils;
 
-import com.nimo.rpc.entity.RpcData;
+import com.nimo.rpc.v1.entity.RpcData;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;

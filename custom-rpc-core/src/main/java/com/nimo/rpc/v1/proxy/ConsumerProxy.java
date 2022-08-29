@@ -1,7 +1,7 @@
-package com.nimo.rpc.proxy;
+package com.nimo.rpc.v1.proxy;
 
-import com.nimo.rpc.entity.RpcData;
-import com.nimo.rpc.manager.ServiceManager;
+import com.nimo.rpc.v1.entity.RpcData;
+import com.nimo.rpc.v1.manager.ServiceManager;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
