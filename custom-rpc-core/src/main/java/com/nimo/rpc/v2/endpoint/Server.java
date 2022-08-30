@@ -1,17 +1,16 @@
 package com.nimo.rpc.v2.endpoint;
 
-import com.nimo.rpc.v1.entity.RpcData;
 import com.nimo.rpc.v1.utils.IOUtils;
 import com.nimo.rpc.v2.URL;
+import com.nimo.rpc.v2.config.Provider;
 import com.nimo.rpc.v2.model.RpcRequest;
-import com.nimo.rpc.v2.serialization.Serialization;
+import com.nimo.rpc.v2.model.RpcResponse;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @auther zgp
@@ -23,6 +22,12 @@ public class Server {
     private ServerSocket server;
 
     private URL url;
+
+    private Map<String, Provider> providers = new HashMap<>();
+
+    public void addProvider(String key, Provider provider) {
+        providers.put(key, provider);
+    }
 
     public Server(URL url) {
         try {
@@ -42,13 +47,25 @@ public class Server {
                     try {
                         // 3. 获取客户端输入流
                         inputStream = socket.getInputStream();
-                        byte[] buf = new byte[1024];
-                        inputStream.read(buf);
-                        System.out.println("receive consumer message : " + new String(buf));
-                        //Codec codec = new Codec();
-                        //RpcRequest request = codec.decode(buf);
-                        //Serialization serialization = new Serialization();
-                        // serialization.deserialize(buf, url.getClass()).var
+                        ObjectInputStream input = new ObjectInputStream(inputStream);
+                        String interfaceName = input.readUTF();
+                        String methodName = input.readUTF();
+
+                        // 组装 request 对象
+                        RpcRequest request = new RpcRequest();
+                        request.setInterfaceName(interfaceName);
+                        request.setMethodName(methodName);
+
+                        Provider provider = providers.get(interfaceName);
+                        if (provider != null) {
+                            RpcResponse response = provider.invoke(request);
+                            OutputStream outputStream = socket.getOutputStream();
+                            ObjectOutputStream out = new ObjectOutputStream(outputStream);
+                            out.writeObject(response);
+                            out.flush();
+                            out.close();
+                        }
+
                     } catch (IOException e) {
                         e.printStackTrace();
                     } finally {

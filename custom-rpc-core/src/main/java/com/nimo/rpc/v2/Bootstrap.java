@@ -23,7 +23,8 @@ public class Bootstrap {
     private static String GLOBAL_CONFIG = "{\n" +
             "    \"service\": [{\n" +
             "        \"id\": \"testService\",\n" +
-            "        \"class\": \"com.nimo.rpc.service.HelloService\",\n" +
+            "        \"interfaceName\": \"com.nimo.rpc.service.HelloService\",\n" +
+            "        \"impl\": \"com.nimo.rpc.service.HelloServiceImpl\",\n" +
             "        \"export\": \"protocol1:8888,protocol2:8999\",\n" +
             "        \"registries\": \"registry1\",\n" +
             "        \"group\": \"group1, group2\"\n" +

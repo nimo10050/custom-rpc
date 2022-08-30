@@ -17,6 +17,7 @@ public class Exporter {
     
     public <T> Exporter(Provider<T> provider, URL serviceUrl) {
         server = new Server(serviceUrl);
+        server.addProvider(serviceUrl.getPath(), provider);
         this.provider = provider;
     }
 
