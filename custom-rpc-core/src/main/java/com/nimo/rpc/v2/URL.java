@@ -10,12 +10,14 @@ public class URL {
     private String path;
 
     public URL() {
+
     }
 
-    public URL(String name, String host, String port) {
+    public URL(String name, String host, String port, String path) {
         this.name = name;
         this.host = host;
         this.port = port;
+        this.path = path;
     }
 
     private String name;
@@ -23,6 +25,8 @@ public class URL {
     private String host;
 
     private String port;
+
+    private String path;
 
     public String getHost() {
         return host;

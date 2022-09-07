@@ -22,8 +22,12 @@ public class ServiceConfig<T> {
     // 指向接口对应的实现类
     private T ref;
 
+    private String impl;
+
     // 对外暴露的接口
-    private Class<T> interfaceClass;
+    private String interfaceName;
+
+    private Class interfaceClass;
 
     // 格式：协议名:端口,协议名:端口
     private String export;
@@ -52,6 +56,17 @@ public class ServiceConfig<T> {
     private List<Exporter> exporters = new ArrayList<>();
 
     public void export() {
+        try {
+            interfaceClass = Class.forName(interfaceName);
+            Class implClass = Class.forName(impl);
+            ref = (T) implClass.newInstance();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
         loadRegistryUrls();
         Map<String, String> portMap = getProtocolAndPort(export);
         for (ProtocolConfig protocolConfig : protocolConfigs) {
@@ -75,12 +90,13 @@ public class ServiceConfig<T> {
             hostName = getLocalIpAddress();
         }
         
-        URL serviceUrl = new URL(protocolConfig.getId(), hostName, port);
+        URL serviceUrl = new URL(protocolConfig.getId(), hostName, port, interfaceClass.getName());
         exportService(serviceUrl);
     }
 
     private void exportService(URL serviceUrl) {
         Protocol protocol = new Protocol();
+
         exporters.add(protocol.export(new Provider<T>(ref, interfaceClass, serviceUrl), serviceUrl));
         registry(registryUrls);
     }
@@ -150,5 +166,25 @@ public class ServiceConfig<T> {
 
     public void setRegistries(String registries) {
         this.registries = registries;
+    }
+
+    public String getInterfaceName() {
+        return interfaceName;
+    }
+
+    public void setInterfaceName(String interfaceName) {
+        this.interfaceName = interfaceName;
+    }
+
+    public String getImpl() {
+        return impl;
+    }
+
+    public void setImpl(String impl) {
+        this.impl = impl;
+    }
+
+    public void setHost(String host) {
+        this.host = host;
     }
 }
