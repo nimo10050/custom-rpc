@@ -89,7 +89,4 @@ public class Provider<T> {
         this.url = url;
     }
 
-    public Method lookupMethod(String methodName) {
-        return null;
-    }
 }
