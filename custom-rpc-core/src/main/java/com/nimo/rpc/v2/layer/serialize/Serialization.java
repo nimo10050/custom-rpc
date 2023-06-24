@@ -1,4 +1,4 @@
-package com.nimo.rpc.v2.serialization;
+package com.nimo.rpc.v2.layer.serialize;
 
 import com.alibaba.fastjson.JSON;
 

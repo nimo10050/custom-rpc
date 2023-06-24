@@ -1,8 +1,8 @@
-package com.nimo.rpc.v2.config;
+package com.nimo.rpc.v2.layer.config;
 
 import com.nimo.rpc.v2.URL;
 import com.nimo.rpc.v2.export.Exporter;
-import com.nimo.rpc.v2.protocol.Protocol;
+import com.nimo.rpc.v2.layer.protocol.Protocol;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.nimo.rpc.v2.config;
+package com.nimo.rpc.v2.layer.config;
 
 /**
  * @auther zgp

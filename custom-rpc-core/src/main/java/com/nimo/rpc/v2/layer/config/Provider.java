@@ -1,4 +1,4 @@
-package com.nimo.rpc.v2.config;
+package com.nimo.rpc.v2.layer.config;
 
 import com.nimo.rpc.v2.URL;
 import com.nimo.rpc.v2.model.RpcRequest;

@@ -1,7 +1,7 @@
-package com.nimo.rpc.v2.protocol;
+package com.nimo.rpc.v2.layer.protocol;
 
 import com.nimo.rpc.v2.URL;
-import com.nimo.rpc.v2.config.Provider;
+import com.nimo.rpc.v2.layer.config.Provider;
 import com.nimo.rpc.v2.export.Exporter;
 
 /**

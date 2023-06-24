@@ -1,8 +1,8 @@
-package com.nimo.rpc.v2.endpoint;
+package com.nimo.rpc.v2.remoting;
 
 import com.nimo.rpc.v1.utils.IOUtils;
 import com.nimo.rpc.v2.URL;
-import com.nimo.rpc.v2.config.Provider;
+import com.nimo.rpc.v2.layer.config.Provider;
 import com.nimo.rpc.v2.model.RpcRequest;
 import com.nimo.rpc.v2.model.RpcResponse;
 

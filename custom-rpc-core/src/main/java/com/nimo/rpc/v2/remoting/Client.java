@@ -1,4 +1,4 @@
-package com.nimo.rpc.v2.endpoint;
+package com.nimo.rpc.v2.remoting;
 
 import com.nimo.rpc.v2.model.RpcResponse;
 

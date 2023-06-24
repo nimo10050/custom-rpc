@@ -1,10 +1,10 @@
 package com.nimo.rpc.v2;
 
 import com.alibaba.fastjson.JSON;
-import com.nimo.rpc.v2.config.GlobalConfig;
-import com.nimo.rpc.v2.config.ProtocolConfig;
-import com.nimo.rpc.v2.config.RegistryConfig;
-import com.nimo.rpc.v2.config.ServiceConfig;
+import com.nimo.rpc.v2.layer.config.GlobalConfig;
+import com.nimo.rpc.v2.layer.config.ProtocolConfig;
+import com.nimo.rpc.v2.layer.config.RegistryConfig;
+import com.nimo.rpc.v2.layer.config.ServiceConfig;
 
 import java.util.ArrayList;
 import java.util.List;

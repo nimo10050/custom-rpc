@@ -1,7 +1,5 @@
 package com.nimo.rpc.v2.model;
 
-import com.nimo.rpc.v2.serialization.Serialization;
-
 import java.io.Serializable;
 
 /**
