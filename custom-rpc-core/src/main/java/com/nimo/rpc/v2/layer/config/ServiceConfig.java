@@ -72,6 +72,7 @@ public class ServiceConfig<T> {
         for (ProtocolConfig protocolConfig : protocolConfigs) {
             doExport(protocolConfig, portMap.get(protocolConfig.getId()));
         }
+        System.out.println("exported.");
     }
 
     private void loadRegistryUrls() {

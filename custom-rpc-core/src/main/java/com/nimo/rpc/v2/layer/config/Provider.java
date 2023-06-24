@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import java.lang.reflect.Method;
+
 /**
  * @auther zgp
  * @desc
@@ -86,4 +88,5 @@ public class Provider<T> {
     public void setUrl(URL url) {
         this.url = url;
     }
+
 }
