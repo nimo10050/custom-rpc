@@ -17,7 +17,7 @@
 package com.nimo.rpc.v3.proxy;
 
 
-import com.nimo.rpc.v3.remoting.NettyClient;
+import com.nimo.rpc.v3.remoting.netty.NettyClient;
 import com.nimo.rpc.v3.remoting.Request;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;

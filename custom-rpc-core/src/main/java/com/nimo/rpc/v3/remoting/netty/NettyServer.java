@@ -1,4 +1,4 @@
-package com.nimo.rpc.v3.remoting;
+package com.nimo.rpc.v3.remoting.netty;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
@@ -29,6 +29,11 @@ public class NettyServer {
 
         channel.closeFuture();
 
+    }
+
+    public static void main(String[] args) {
+        NettyServer server = new NettyServer();
+        server.start("localhost", 8989);
     }
 
 }

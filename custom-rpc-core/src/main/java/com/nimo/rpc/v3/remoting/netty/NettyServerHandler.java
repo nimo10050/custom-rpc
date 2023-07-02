@@ -1,10 +1,13 @@
-package com.nimo.rpc.v3.remoting;
+package com.nimo.rpc.v3.remoting.netty;
 
 
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelDuplexHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPromise;
 import io.netty.handler.timeout.IdleStateEvent;
+import io.netty.util.CharsetUtil;
 
 import java.net.InetSocketAddress;
 
@@ -16,7 +19,7 @@ public class NettyServerHandler extends ChannelDuplexHandler {
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-
+        System.out.println("active");
     }
 
     @Override
@@ -26,12 +29,17 @@ public class NettyServerHandler extends ChannelDuplexHandler {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+        // 压缩
+        ByteBuf in = (ByteBuf) msg;
+        //将消息记录到控制台
+        System.out.println("Server received: " + in .toString(CharsetUtil.UTF_8));
+        //将接收到的消息写给发送者
+        ctx.writeAndFlush(Unpooled.copiedBuffer("Hello ,client", CharsetUtil.UTF_8));
     }
 
 
     @Override
     public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) throws Exception {
-
     }
 
     @Override

@@ -1,6 +1,6 @@
 package com.nimo.rpc.v3.proxy;
 
-import com.nimo.rpc.v3.remoting.NettyClient;
+import com.nimo.rpc.v3.remoting.netty.NettyClient;
 
 import java.lang.reflect.Proxy;
 
