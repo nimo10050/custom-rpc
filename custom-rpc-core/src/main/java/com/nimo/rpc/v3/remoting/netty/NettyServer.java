@@ -18,7 +18,7 @@ public class NettyServer {
                 .childOption(ChannelOption.TCP_NODELAY, Boolean.TRUE)
                 .childHandler(new ChannelInitializer<SocketChannel>() {
                     protected void initChannel(SocketChannel ch) {
-                        //ch.pipeline().addLast("demp-rpc-decoder", new DemoRpcDecoder());
+                        ch.pipeline().addLast("demp-rpc-decoder", new DemoRpcDecoder());
                         //ch.pipeline().addLast("demo-rpc-encoder", new DemoRpcEncoder());
                         ch.pipeline().addLast("server-handler", new NettyServerHandler());
                     }

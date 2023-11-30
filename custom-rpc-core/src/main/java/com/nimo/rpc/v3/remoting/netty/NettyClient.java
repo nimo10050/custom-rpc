@@ -4,14 +4,13 @@ import com.nimo.rpc.v3.remoting.Response;
 import com.nimo.rpc.v3.remoting.api.Client;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.Unpooled;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.ChannelOption;
-import io.netty.channel.EventLoopGroup;
+import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.util.CharsetUtil;
+import io.netty.util.concurrent.DefaultPromise;
+import io.netty.util.concurrent.EventExecutor;
 
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
@@ -58,7 +57,7 @@ public class NettyClient implements Client {
 
     @Override
     public Response send(Object request, int timeout) {
-        Response response = new Response();
+        Response response = new Response(new DefaultPromise(new DefaultEventLoop()));
         callbackMap.put("123", response);
         ChannelFuture channelFuture = this.channel.channel().writeAndFlush(request);
         return response;
@@ -78,7 +77,7 @@ public class NettyClient implements Client {
     public static void main(String[] args) throws Exception {
         NettyClient client = new NettyClient();
         client.connect(new InetSocketAddress("localhost", 8989));
-        Response response = client.send(Unpooled.copiedBuffer("Hello ,服务器", CharsetUtil.UTF_8), 6000);
+        Response response = client.send(Unpooled.copiedBuffer("123456781234567812345678", CharsetUtil.UTF_8), 6000);
         System.out.println("receive server message: " + response.getValue());
     }
 

@@ -15,14 +15,14 @@ public class NettyClientHandler extends SimpleChannelInboundHandler {
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        System.out.println("client connected.");
+        System.out.println("12345678");
         //ctx.writeAndFlush(Unpooled.copiedBuffer("Hello ,服务器", CharsetUtil.UTF_8));
     }
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
         System.out.println("read.....");
-        this.client.getCallbackMap().get("123").setResult("hello world");
+        this.client.getCallbackMap().get("123").setResult("123456781234567812345678");
         System.out.println("read over");
     }
 

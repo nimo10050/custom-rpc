@@ -1,6 +1,6 @@
 package com.nimo.server;
 
-import com.nimo.rpc.manager.ServiceManager;
+import com.nimo.rpc.v1.manager.ServiceManager;
 
 public class ServiceProvider {
 

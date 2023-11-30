@@ -1,12 +1,27 @@
 package com.nimo.rpc.v3.remoting;
 
+import io.netty.util.concurrent.Promise;
+
+import java.util.concurrent.TimeUnit;
+
 public class Response {
 
+    public Response(Promise promise) {
+        this.promise = promise;
+    }
+
     private Object result;
+
+    private Promise promise;
 
     private int timeout = 6000;
 
     public Object getValue() {
+        try {
+            promise.await(timeout, TimeUnit.MILLISECONDS);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         while ((timeout --) > 0) {
             try {
                 Thread.sleep(1);
@@ -21,5 +36,13 @@ public class Response {
 
     public void setResult(Object result) {
         this.result = result;
+    }
+
+    public Promise getPromise() {
+        return promise;
+    }
+
+    public void setPromise(Promise promise) {
+        this.promise = promise;
     }
 }
