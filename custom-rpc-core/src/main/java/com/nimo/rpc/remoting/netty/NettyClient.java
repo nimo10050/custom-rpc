@@ -1,7 +1,7 @@
-package com.nimo.rpc.v3.remoting.netty;
+package com.nimo.rpc.remoting.netty;
 
-import com.nimo.rpc.v3.remoting.Response;
-import com.nimo.rpc.v3.remoting.api.Client;
+import com.nimo.rpc.remoting.Response;
+import com.nimo.rpc.remoting.api.Client;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.*;
@@ -10,7 +10,6 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.util.CharsetUtil;
 import io.netty.util.concurrent.DefaultPromise;
-import io.netty.util.concurrent.EventExecutor;
 
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;

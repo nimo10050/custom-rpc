@@ -1,7 +1,5 @@
-package com.nimo.rpc.v3.remoting.netty;
+package com.nimo.rpc.remoting.netty;
 
-import com.nimo.rpc.v3.remoting.Response;
-import com.nimo.rpc.v3.remoting.ResponseFuture;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 

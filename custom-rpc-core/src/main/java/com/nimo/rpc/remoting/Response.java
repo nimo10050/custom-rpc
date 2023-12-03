@@ -1,4 +1,4 @@
-package com.nimo.rpc.v3.remoting;
+package com.nimo.rpc.remoting;
 
 import io.netty.util.concurrent.Promise;
 

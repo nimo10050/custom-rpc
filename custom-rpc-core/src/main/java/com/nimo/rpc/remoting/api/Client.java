@@ -1,8 +1,7 @@
-package com.nimo.rpc.v3.remoting.api;
+package com.nimo.rpc.remoting.api;
 
-import com.nimo.rpc.v3.remoting.Response;
+import com.nimo.rpc.remoting.Response;
 
-import java.net.InetAddress;
 import java.net.SocketAddress;
 
 public interface Client {

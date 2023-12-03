@@ -1,14 +1,32 @@
 package com.nimo.rpc.v3.remoting.netty;
 
 import com.alibaba.com.caucho.hessian.io.Hessian2Input;
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.support.spring.messaging.MappingFastJsonMessageConverter;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
 import org.apache.dubbo.common.io.Bytes;
+import org.apache.dubbo.common.serialize.Cleanable;
+import org.apache.dubbo.common.serialize.ObjectInput;
+import org.apache.dubbo.common.serialize.fastjson.FastJsonSerialization;
+import org.apache.dubbo.common.utils.ReflectUtils;
+import org.apache.dubbo.common.utils.StringUtils;
+import org.apache.dubbo.rpc.model.ApplicationModel;
+import org.apache.dubbo.rpc.model.MethodDescriptor;
+import org.apache.dubbo.rpc.model.ServiceDescriptor;
+import org.apache.dubbo.rpc.model.ServiceRepository;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import static org.apache.dubbo.common.URL.buildKey;
+import static org.apache.dubbo.common.constants.CommonConstants.*;
+import static org.apache.dubbo.common.constants.CommonConstants.VERSION_KEY;
 
 /**
  * @auther zgp
@@ -53,39 +71,63 @@ public class DubboRpcDecoder extends ByteToMessageDecoder {
 //        System.out.println("event: " + event);
 //
 //        //Serialization ID (5 bit)标识序列化类型：比如 fastjson 的值为6。
-//        byte serializationId = (byte) (0x1f & flag);
-//        System.out.println("serializationId: " + serializationId);
+        byte serializationId = (byte) (0x1f & flag);
+        System.out.println("serializationId: " + serializationId);
 //
 //        //Status (8 bits) 仅在 Req/Res 为0（响应）时有用，用于标识响应的状态
         byteBuf.skipBytes(1);// skip status
-//        //。
-//        //
-//        //20 - OK
-//        //30 - CLIENT_TIMEOUT
-//        //31 - SERVER_TIMEOUT
-//        //40 - BAD_REQUEST
-//        //50 - BAD_RESPONSE
-//        //60 - SERVICE_NOT_FOUND
-//        //70 - SERVICE_ERROR
-//        //80 - SERVER_ERROR
-//        //90 - CLIENT_ERROR
-//        //100 - SERVER_THREADPOOL_EXHAUSTED_ERROR
-//
+
 //        //Request ID (64 bits)标识唯一请求。类型为long。
         long requestId = byteBuf.readLong();
         System.out.println("requestId: " + requestId);
-//        //
+//
 //        //Data Length (32 bits)
         int len = byteBuf.readInt();
         System.out.println("dataLength: " + len);
 
         byte[] buf = new byte[len];
         byteBuf.readBytes(buf);
+        FastJsonSerialization serialization = new FastJsonSerialization();
+        ObjectInput in = serialization.deserialize(null, new ByteArrayInputStream(buf));
 
-        Hessian2Input input = new Hessian2Input(null);
-        input.init(new ByteArrayInputStream(buf));
-        //input.readObject()
-        System.out.println(input);
+        String dubboVersion = in.readUTF();
+        System.out.println("dubbo version: " + dubboVersion);
+
+        String path = in.readUTF();
+        System.out.println("dubbo path: " + path);
+
+        String version = in.readUTF();
+        System.out.println("version: " + version);
+
+        String methodName = in.readUTF();
+        System.out.println("methodName: " + methodName);
+
+        String desc = in.readUTF();
+        System.out.println("desc: " + desc);
+
+        try {
+            Object[] args = new Object[0];
+            Class<?>[] pts = new Class[0];
+            if (desc.length() > 0) {
+                pts = ReflectUtils.desc2classArray(desc);
+                args = new Object[pts.length];
+                for (int i = 0; i < args.length; i++) {
+                    try {
+                        args[i] = in.readObject(pts[i]);
+                        System.out.println("args[" + i + "] : " + args[i]);
+                    } catch (Exception e) {
+                        System.out.println("Decode argument failed: " + e.getMessage());
+                    }
+                }
+            }
+
+        } catch (ClassNotFoundException e) {
+            throw new IOException(StringUtils.toString("Read invocation data failed.", e));
+        } finally {
+            if (in instanceof Cleanable) {
+                ((Cleanable) in).cleanup();
+            }
+        }
         list.add(byteBuf.readRetainedSlice(8));
     }
 }

@@ -14,11 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.nimo.rpc.v3.proxy;
+package com.nimo.rpc.proxy;
 
 
-import com.nimo.rpc.v3.remoting.netty.NettyClient;
-import com.nimo.rpc.v3.remoting.Request;
+import com.nimo.rpc.remoting.Request;
+import com.nimo.rpc.remoting.netty.NettyClient;
+
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 
