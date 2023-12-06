@@ -8,6 +8,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPromise;
 import io.netty.handler.timeout.IdleStateEvent;
 import io.netty.util.CharsetUtil;
+import org.apache.dubbo.remoting.exchange.Response;
 
 import java.net.InetSocketAddress;
 
@@ -29,17 +30,15 @@ public class NettyServerHandler extends ChannelDuplexHandler {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        // 压缩
-        ByteBuf in = (ByteBuf) msg;
-        //将消息记录到控制台
-        System.out.println("Server received: " + in .toString(CharsetUtil.UTF_8));
+
         //将接收到的消息写给发送者
-        ctx.writeAndFlush(Unpooled.copiedBuffer("Hello ,client", CharsetUtil.UTF_8));
+        ctx.writeAndFlush(msg);
     }
 
 
     @Override
     public void write(ChannelHandlerContext ctx, Object msg, ChannelPromise promise) throws Exception {
+        super.write(ctx, msg, promise);
     }
 
     @Override

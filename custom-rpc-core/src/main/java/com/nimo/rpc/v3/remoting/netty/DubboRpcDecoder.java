@@ -10,8 +10,10 @@ import org.apache.dubbo.common.io.Bytes;
 import org.apache.dubbo.common.serialize.Cleanable;
 import org.apache.dubbo.common.serialize.ObjectInput;
 import org.apache.dubbo.common.serialize.fastjson.FastJsonSerialization;
+import org.apache.dubbo.common.utils.ClassUtils;
 import org.apache.dubbo.common.utils.ReflectUtils;
 import org.apache.dubbo.common.utils.StringUtils;
+import org.apache.dubbo.remoting.exchange.Response;
 import org.apache.dubbo.rpc.model.ApplicationModel;
 import org.apache.dubbo.rpc.model.MethodDescriptor;
 import org.apache.dubbo.rpc.model.ServiceDescriptor;
@@ -20,6 +22,7 @@ import org.apache.dubbo.rpc.model.ServiceRepository;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -120,7 +123,14 @@ public class DubboRpcDecoder extends ByteToMessageDecoder {
                     }
                 }
             }
-
+            // invoke method
+            Object instance = Class.forName(path).newInstance();
+            Method method = instance.getClass().getMethod(methodName, pts);
+            Object result = method.invoke(instance, args);
+            System.out.println("result: " + result);
+            Response res = new Response();
+            res.setResult(result);
+            list.add(res);
         } catch (ClassNotFoundException e) {
             throw new IOException(StringUtils.toString("Read invocation data failed.", e));
         } finally {
@@ -128,6 +138,6 @@ public class DubboRpcDecoder extends ByteToMessageDecoder {
                 ((Cleanable) in).cleanup();
             }
         }
-        list.add(byteBuf.readRetainedSlice(8));
+
     }
 }
