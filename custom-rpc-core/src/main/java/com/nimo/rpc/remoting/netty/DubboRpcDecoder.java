@@ -1,4 +1,4 @@
-package com.nimo.rpc.v3.remoting.netty;
+package com.nimo.rpc.remoting.netty;
 
 import com.alibaba.com.caucho.hessian.io.Hessian2Input;
 import com.alibaba.fastjson.JSONObject;

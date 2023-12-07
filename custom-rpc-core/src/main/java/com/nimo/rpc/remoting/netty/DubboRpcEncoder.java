@@ -1,4 +1,4 @@
-package com.nimo.rpc.v3.remoting.netty;
+package com.nimo.rpc.remoting.netty;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
